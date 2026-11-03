@@ -1,227 +1,241 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đường Đua TikTok Live Chibi - Interactive Live Game</title>
+    <title>Đường Đua TikTok Live Chibi - @dyhfvz06vn73 (VFX 2.0 & Team Battle)</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Fredoka:wght@600;700&family=Nunito:wght@700;800;900&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Fredoka:wght@600;700;800&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Nunito', sans-serif;
             user-select: none;
             overflow: hidden;
-            background: #0d1117;
+            background: #06090e;
         }
-
         .font-fredoka {
             font-family: 'Fredoka', cursive;
         }
-
         .glass-panel {
-            background: rgba(15, 23, 42, 0.78);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: rgba(15, 23, 42, 0.82);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
             border: 1px solid rgba(255, 255, 255, 0.15);
         }
-
-        .neon-border {
-            box-shadow: 0 0 15px rgba(244, 63, 94, 0.4), inset 0 0 10px rgba(244, 63, 94, 0.2);
+        .neon-glow-red {
+            box-shadow: 0 0 15px rgba(244, 63, 94, 0.5), inset 0 0 10px rgba(244, 63, 94, 0.2);
         }
-
+        .neon-glow-blue {
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.5), inset 0 0 10px rgba(6, 182, 212, 0.2);
+        }
         .toast-animate {
             animation: slideInDown 0.4s cubic-bezier(0.16, 1, 0.3, 1), fadeOut 0.5s ease-in 3.5s forwards;
         }
-
         @keyframes slideInDown {
-            from {
-                transform: translateY(-30px) scale(0.9);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateY(0) scale(1);
-                opacity: 1;
-            }
+            from { transform: translateY(-30px) scale(0.9); opacity: 0; }
+            to { transform: translateY(0) scale(1); opacity: 1; }
         }
-
         @keyframes fadeOut {
-            to {
-                opacity: 0;
-                transform: translateY(-15px) scale(0.95);
-            }
+            to { opacity: 0; transform: translateY(-15px) scale(0.95); }
         }
-
-        /* Custom scrollbar for leaderboard */
+        /* Mode container styling */
+        #gameWrapper.mode-vertical {
+            max-width: 460px;
+            height: 94vh;
+            border-radius: 2.5rem;
+            box-shadow: 0 0 50px rgba(244, 63, 94, 0.3), 0 0 0 2px rgba(255, 255, 255, 0.15);
+            margin: auto;
+        }
+        /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 4px;
         }
-
         ::-webkit-scrollbar-thumb {
             background: rgba(255, 255, 255, 0.25);
             border-radius: 4px;
         }
     </style>
 </head>
-
-<body class="relative w-screen h-screen flex flex-col items-center justify-center p-0 m-0 bg-slate-950 text-white">
+<body class="relative w-screen h-screen flex flex-col items-center justify-center p-0 m-0 bg-slate-950 text-white overflow-hidden">
 
     <!-- 1. HEADER OVERLAY (Thanh thông tin trên cùng) -->
-    <header class="absolute top-3 left-4 right-4 z-20 flex items-center justify-between pointer-events-none">
+    <header class="absolute top-3 left-4 right-4 z-20 flex items-center justify-between pointer-events-none gap-2">
         <!-- Logo & Thông tin phòng -->
-        <div class="flex items-center gap-3 pointer-events-auto">
-            <div class="glass-panel px-4 py-2 rounded-2xl flex items-center gap-3 shadow-xl border-rose-500/30">
-                <div
-                    class="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-tr from-pink-500 via-rose-500 to-amber-400 shadow-lg">
-                    <span class="text-xl">🏎️</span>
+        <div class="flex items-center gap-2 pointer-events-auto">
+            <div class="glass-panel px-3.5 py-1.5 rounded-2xl flex items-center gap-2.5 shadow-xl border-rose-500/30">
+                <div class="relative flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-tr from-pink-500 via-rose-500 to-amber-400 shadow-lg">
+                    <span class="text-lg">🏎️</span>
                 </div>
                 <div>
-                    <h1
-                        class="text-base font-black tracking-wide bg-gradient-to-r from-pink-400 via-yellow-200 to-cyan-300 bg-clip-text text-transparent font-fredoka uppercase">
-                        Đường Đua TikTok Chibi
+                    <h1 class="text-xs sm:text-sm font-black tracking-wide bg-gradient-to-r from-pink-400 via-yellow-200 to-cyan-300 bg-clip-text text-transparent font-fredoka uppercase">
+                        Đường Đua TikTok
                     </h1>
-                    <div class="flex items-center gap-2 text-xs text-slate-300">
+                    <div class="flex items-center gap-1.5 text-[11px] text-slate-300">
                         <span id="channelNameBadge" class="font-bold text-pink-400">@dyhfvz06vn73</span>
                         <span>•</span>
-                        <span id="playerCountBadge">0 Người chơi</span>
+                        <span id="playerCountBadge">0 Người</span>
                     </div>
                 </div>
             </div>
 
             <!-- Trạng thái kết nối WebSocket -->
-            <div id="wsStatusBadge"
-                class="glass-panel px-3 py-1.5 rounded-full flex items-center gap-2 text-xs font-bold text-amber-400 border-amber-500/30">
+            <div id="wsStatusBadge" class="glass-panel px-3 py-1.5 rounded-full flex items-center gap-2 text-xs font-bold text-amber-400 border-amber-500/30 hidden sm:flex">
                 <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping"></span>
-                <span id="wsStatusText">Đang kết nối Server...</span>
+                <span id="wsStatusText">Đang kết nối...</span>
             </div>
 
             <!-- Nút cấu hình WebSocket Bridge URL -->
-            <button id="btnWsConfig" title="Cài đặt địa chỉ WebSocket Bridge"
-                class="glass-panel hover:bg-slate-800/80 p-2 rounded-2xl text-slate-300 hover:text-white transition shadow-lg text-xs font-bold flex items-center gap-1.5 pointer-events-auto">
+            <button id="btnWsConfig" title="Cài đặt địa chỉ WebSocket Bridge" class="glass-panel hover:bg-slate-800/80 p-2 rounded-2xl text-slate-300 hover:text-white transition shadow-lg text-xs font-bold flex items-center gap-1 pointer-events-auto">
                 <span>🔗</span>
-                <span class="hidden sm:inline text-[11px]">Bridge URL</span>
             </button>
+        </div>
+
+        <!-- 2. THANH KÉO CO ĐUA THEO ĐỘI (TEAM BATTLE TUG-OF-WAR: ĐỎ VS XANH) -->
+        <div class="pointer-events-auto flex items-center">
+            <div class="glass-panel px-3.5 py-1.5 rounded-2xl flex items-center gap-2.5 border-white/10 shadow-2xl">
+                <!-- Đội Đỏ -->
+                <div class="flex items-center gap-1 font-fredoka text-xs text-rose-400 font-black">
+                    <span class="text-sm">🔴</span>
+                    <span class="hidden md:inline">RỒNG ĐỎ</span>
+                    <span id="teamRedScore" class="bg-rose-500/20 px-2 py-0.5 rounded-full text-white text-[11px]">0đ</span>
+                </div>
+                <!-- Thanh tỷ lệ kéo co -->
+                <div class="w-24 sm:w-44 md:w-56 h-3 bg-slate-900 rounded-full overflow-hidden flex p-0.5 border border-white/20">
+                    <div id="teamRedBar" class="h-full bg-gradient-to-r from-rose-600 to-pink-500 rounded-l-full transition-all duration-300" style="width: 50%;"></div>
+                    <div id="teamBlueBar" class="h-full bg-gradient-to-r from-cyan-500 to-blue-600 rounded-r-full transition-all duration-300" style="width: 50%;"></div>
+                </div>
+                <!-- Đội Xanh -->
+                <div class="flex items-center gap-1 font-fredoka text-xs text-cyan-400 font-black">
+                    <span id="teamBlueScore" class="bg-cyan-500/20 px-2 py-0.5 rounded-full text-white text-[11px]">0đ</span>
+                    <span class="hidden md:inline">CỌP XANH</span>
+                    <span class="text-sm">🔵</span>
+                </div>
+            </div>
         </div>
 
         <!-- Các nút điều khiển tiện ích -->
         <div class="flex items-center gap-2 pointer-events-auto">
+            <!-- Nút đổi chế độ Dọc 9:16 / Ngang 16:9 -->
+            <button id="btnToggleLayout" class="glass-panel hover:bg-slate-800/80 p-2 sm:px-3 sm:py-2 rounded-2xl text-cyan-300 hover:text-white transition shadow-lg flex items-center gap-1.5 text-xs font-bold">
+                <span id="layoutIcon">📱</span>
+                <span id="layoutLabel" class="hidden sm:inline">Chế độ: Ngang</span>
+            </button>
+
             <!-- Nút bật/tắt âm thanh -->
-            <button id="btnToggleSound"
-                class="glass-panel hover:bg-slate-800/80 p-2.5 rounded-2xl text-slate-300 hover:text-white transition shadow-lg flex items-center gap-1.5 text-xs font-bold">
+            <button id="btnToggleSound" class="glass-panel hover:bg-slate-800/80 p-2 sm:px-3 sm:py-2 rounded-2xl text-slate-300 hover:text-white transition shadow-lg flex items-center gap-1 text-xs font-bold">
                 <span id="soundIcon">🔊</span>
-                <span id="soundLabel">Âm thanh: BẬT</span>
             </button>
 
             <!-- Nút bật/tắt bảng Test Controller -->
-            <button id="btnToggleTest"
-                class="glass-panel hover:bg-rose-950/50 hover:border-rose-500/50 px-3.5 py-2.5 rounded-2xl text-pink-300 hover:text-pink-100 transition shadow-lg flex items-center gap-2 text-xs font-black">
+            <button id="btnToggleTest" class="glass-panel hover:bg-rose-950/50 hover:border-rose-500/50 px-2.5 sm:px-3.5 py-2 rounded-2xl text-pink-300 hover:text-pink-100 transition shadow-lg flex items-center gap-1.5 text-xs font-black">
                 <span>⚙️</span>
-                <span>Bảng Test Offline</span>
+                <span class="hidden sm:inline">Test Panel</span>
             </button>
         </div>
     </header>
 
-    <!-- 2. LIVE FEED TOAST NOTIFICATIONS (Thông báo tặng quà & sự kiện nổ hũ) -->
-    <div id="toastContainer"
-        class="absolute top-16 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2 pointer-events-none">
+    <!-- 3. LIVE FEED TOAST NOTIFICATIONS (Thông báo tặng quà & sự kiện nổ hũ) -->
+    <div id="toastContainer" class="absolute top-16 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2 pointer-events-none">
         <!-- Toast được tạo tự động bởi JS -->
     </div>
 
-    <!-- 3. BẢNG XẾP HẠNG (LEADERBOARD) - GÓC TRÊN BÊN PHẢI -->
-    <aside
-        class="absolute top-20 right-4 z-20 w-72 glass-panel rounded-3xl p-3.5 shadow-2xl border-cyan-500/20 pointer-events-auto">
+    <!-- 4. BẢNG XẾP HẠNG (LEADERBOARD) - GÓC TRÊN BÊN PHẢI -->
+    <aside id="leaderboardAside" class="absolute top-20 right-4 z-20 w-64 sm:w-72 glass-panel rounded-3xl p-3.5 shadow-2xl border-cyan-500/20 pointer-events-auto">
         <div class="flex items-center justify-between pb-2 mb-2 border-b border-white/10">
             <div class="flex items-center gap-2">
-                <span class="text-lg">🏆</span>
-                <h2 class="font-fredoka text-sm uppercase tracking-wider text-cyan-300">Bảng Xếp Hạng</h2>
+                <span class="text-base">🏆</span>
+                <h2 class="font-fredoka text-xs sm:text-sm uppercase tracking-wider text-cyan-300">Bảng Xếp Hạng</h2>
             </div>
-            <span class="text-[10px] bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded-full font-bold">Top Tương
-                Tác</span>
+            <span class="text-[9px] bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded-full font-bold">Top Tương Tác</span>
         </div>
 
         <!-- Danh sách người chơi xếp hạng -->
-        <div id="leaderboardList" class="flex flex-col gap-1.5 max-h-[320px] overflow-y-auto pr-1">
-            <div class="text-center py-6 text-xs text-slate-400 italic">
+        <div id="leaderboardList" class="flex flex-col gap-1.5 max-h-[220px] sm:max-h-[280px] overflow-y-auto pr-1">
+            <div class="text-center py-4 text-xs text-slate-400 italic">
                 Chưa có người chơi nào vào đường đua...<br>
-                Hãy chat hoặc tặng hoa hồng để xuất hiện!
-            </div>
-        </div>
-
-        <!-- Mẹo tương tác cho người xem -->
-        <div
-            class="mt-3 pt-2 border-t border-white/10 text-[11px] text-slate-300 flex flex-col gap-1 bg-slate-900/40 p-2 rounded-xl">
-            <div class="flex items-center gap-1.5 text-pink-300 font-bold">
-                <span>🌹</span> <span>Hoa Hồng: Tăng Tốc x2.5</span>
-            </div>
-            <div class="flex items-center gap-1.5 text-amber-300 font-bold">
-                <span>💖</span> <span>Thả Tim / Chat: Nhảy Vượt Rào</span>
+                Hãy chat <b>1</b> hoặc <b>2</b> để tham gia!
             </div>
         </div>
     </aside>
 
-    <!-- 4. CANVAS CHÍNH CỦA GAME (SIDE-SCROLLING RUNNER) -->
-    <main class="w-full h-full relative overflow-hidden">
-        <canvas id="gameCanvas" class="w-full h-full block cursor-crosshair"></canvas>
-    </main>
+    <!-- 5. CALL TO ACTION OVERLAY (Thanh hướng dẫn tương tác cho khán giả TikTok) -->
+    <div class="absolute bottom-4 z-20 pointer-events-auto flex items-center gap-2 max-w-[95vw]">
+        <div class="glass-panel px-3 sm:px-5 py-2 rounded-2xl flex flex-wrap items-center justify-center gap-2 sm:gap-4 text-[11px] sm:text-xs text-white shadow-2xl border-white/15">
+            <div class="flex items-center gap-1 font-bold text-rose-400">
+                <span>🔴</span> <span>Chat <b>1</b>: Đội Đỏ</span>
+            </div>
+            <span class="text-slate-500">•</span>
+            <div class="flex items-center gap-1 font-bold text-cyan-400">
+                <span>🔵</span> <span>Chat <b>2</b>: Đội Xanh</span>
+            </div>
+            <span class="text-slate-500">•</span>
+            <div class="flex items-center gap-1 font-bold text-amber-300">
+                <span>💖</span> <span>Thả Tim: Nhảy Vượt Rào</span>
+            </div>
+            <span class="text-slate-500">•</span>
+            <div class="flex items-center gap-1 font-bold text-pink-400">
+                <span>🌹</span> <span>Hoa Hồng: Nitro Team x2.5</span>
+            </div>
+        </div>
+    </div>
 
-    <!-- 5. FLOATING TEST CONTROLLER (BẢNG ĐIỀU KHIỂN GIẢ LẬP ĐỂ TEST NGAY) -->
-    <div id="testPanel"
-        class="fixed bottom-4 left-4 z-40 glass-panel rounded-3xl p-4 shadow-2xl border-rose-500/40 w-96 transition-all duration-300">
+    <!-- 6. KHUNG CHỨA CANVAS CHÍNH (Hỗ trợ chuyển đổi Dọc 9:16 và Ngang) -->
+    <div id="gameWrapper" class="w-full h-full relative overflow-hidden flex items-center justify-center transition-all duration-500">
+        <canvas id="gameCanvas" class="w-full h-full block cursor-crosshair"></canvas>
+    </div>
+
+    <!-- 7. FLOATING TEST CONTROLLER (BẢNG ĐIỀU KHIỂN GIẢ LẬP ĐỂ TEST ĐẦY ĐỦ TÍNH NĂNG) -->
+    <div id="testPanel" class="fixed bottom-16 left-4 z-40 glass-panel rounded-3xl p-4 shadow-2xl border-rose-500/40 w-80 sm:w-96 transition-all duration-300">
         <div class="flex items-center justify-between mb-3 pb-2 border-b border-white/10">
             <div class="flex items-center gap-2">
                 <span class="text-base">🧪</span>
-                <span class="font-fredoka text-sm text-pink-300">Giả Lập Tương Tác TikTok</span>
+                <span class="font-fredoka text-sm text-pink-300">Giả Lập Tương Tác 2.0</span>
             </div>
             <button id="btnCloseTest" class="text-slate-400 hover:text-white text-xs px-2 py-1 rounded-lg bg-slate-800">
                 Thu gọn ✕
             </button>
         </div>
 
-        <div class="flex flex-col gap-2.5 text-xs">
-            <!-- Nút tạo nhân vật ngẫu nhiên -->
-            <button id="btnMockSpawn"
-                class="w-full py-2 px-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 font-bold text-white shadow-md transition flex items-center justify-center gap-2">
-                <span>👤</span> Thêm 1 Nhân Vật Chibi Mới
-            </button>
-
-            <!-- Nhóm nút hành động nhanh cho top người chơi -->
+        <div class="flex flex-col gap-2 text-xs">
+            <!-- Nút thêm người theo đội -->
             <div class="grid grid-cols-2 gap-2">
-                <button id="btnMockRose"
-                    class="py-2 px-2.5 rounded-xl bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-500 hover:to-pink-500 font-bold text-white shadow transition flex items-center justify-center gap-1.5">
+                <button id="btnMockTeamRed" class="py-2 px-2.5 rounded-xl bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 font-bold text-white shadow flex items-center justify-center gap-1.5">
+                    <span>🔴</span> +1 Đội Đỏ (Chat 1)
+                </button>
+                <button id="btnMockTeamBlue" class="py-2 px-2.5 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 font-bold text-white shadow flex items-center justify-center gap-1.5">
+                    <span>🔵</span> +1 Đội Xanh (Chat 2)
+                </button>
+            </div>
+
+            <!-- Nút hành động tương tác -->
+            <div class="grid grid-cols-2 gap-2">
+                <button id="btnMockRose" class="py-2 px-2.5 rounded-xl bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-500 font-bold text-white shadow flex items-center justify-center gap-1.5">
                     <span>🌹</span> Tặng Hoa Hồng (Boost)
                 </button>
-                <button id="btnMockHeart"
-                    class="py-2 px-2.5 rounded-xl bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 font-bold text-white shadow transition flex items-center justify-center gap-1.5">
-                    <span>❤️</span> Thả 20 Tim (Jump)
+                <button id="btnMockHeart" class="py-2 px-2.5 rounded-xl bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 font-bold text-white shadow flex items-center justify-center gap-1.5">
+                    <span>❤️</span> Thả Tim (Nhảy Né Rào)
                 </button>
-                <button id="btnMockChat"
-                    class="py-2 px-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 font-bold text-white shadow transition flex items-center justify-center gap-1.5">
-                    <span>💬</span> Chat "chay len"
+                <button id="btnMockSuperCar" class="py-2 px-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-fuchsia-600 hover:from-purple-500 font-bold text-white shadow flex items-center justify-center gap-1.5">
+                    <span>🏎️</span> Siêu Xe (Screen Shake)
                 </button>
-                <button id="btnMockSuperCar"
-                    class="py-2 px-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-fuchsia-600 hover:from-purple-500 hover:to-fuchsia-500 font-bold text-white shadow transition flex items-center justify-center gap-1.5">
-                    <span>🏎️</span> Siêu Xe (Mega Boost)
+                <button id="btnMockMangaText" class="py-2 px-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 font-bold text-white shadow flex items-center justify-center gap-1.5">
+                    <span>🗯️</span> Test Chữ Manga (BOOM!)
                 </button>
             </div>
 
             <!-- Tùy chỉnh tên người dùng và gửi lệnh test -->
             <div class="mt-1 flex items-center gap-2">
-                <input id="inputCustomUser" type="text" placeholder="Nhập tên user..." value="viewer_vip"
-                    class="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-pink-500">
-                <button id="btnCustomBoost"
-                    class="bg-pink-600 hover:bg-pink-500 font-bold px-3 py-1.5 rounded-xl text-white">
+                <input id="inputCustomUser" type="text" placeholder="Nhập tên user..." value="viewer_vip" class="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-pink-500">
+                <button id="btnCustomBoost" class="bg-pink-600 hover:bg-pink-500 font-bold px-3 py-1.5 rounded-xl text-white">
                     Tăng Tốc
                 </button>
             </div>
 
             <div class="flex justify-between items-center pt-1 text-[11px] text-slate-400">
-                <button id="btnClearPlayers" class="text-rose-400 hover:underline">Xóa tất cả người chơi</button>
+                <button id="btnClearPlayers" class="text-rose-400 hover:underline">Xóa người chơi</button>
                 <span class="text-[10px]">Tự động đồng bộ với WebSocket:8080</span>
             </div>
         </div>
@@ -258,21 +272,21 @@
         </div>
     </div>
 
-    <!-- 6. TOÀN BỘ LOGIC GAME ENGINE (JAVASCRIPT) -->
+    <!-- 8. TOÀN BỘ GAME ENGINE NÂNG CẤP 2.0 (JAVASCRIPT) -->
     <script>
         /**
-         * TIKTOK LIVE CHIBI RACE - GAME ENGINE
+         * TIKTOK LIVE CHIBI RACE - ENGINE 2.0
          * -------------------------------------------------------------
-         * Kiến trúc:
-         * - Web Audio API Synthesizer (Âm thanh tức thời không cần file ngoài).
-         * - Parallax Canvas Rendering (Nền mây, núi, thành phố, đường chạy).
-         * - Chibi Character Physics Engine (Trọng lực, nhảy, chạy, tăng tốc, vấp ngã).
-         * - Particle FX Engine (Khói lửa nitro, ngôi sao, hoa giấy confetti).
-         * - WebSocket Client (Đồng bộ với local bridge server).
+         * Tính năng mới:
+         * 1. VFX Game Juice: Multi-layer Nitro Fire, After-image Ghost Trail, Shockwaves, Manga Comic Floating Popups.
+         * 2. Screen Shake System: Rung lắc màn hình khi có sự kiện nổ hũ / siêu xe.
+         * 3. Team Battle: Hệ thống chia phe Đội Rồng Đỏ 🔴 vs Đội Cọp Xanh 🔵 (Chat 1 / Chat 2).
+         * 4. Chibi 2.0: Cánh thiên thần vỗ cánh, mũ cầu 3D, bóng phản chiếu mặt đường ướt (Wet Asphalt Reflection).
+         * 5. Layout Switcher: Chuyển đổi linh hoạt giữa Màn hình Ngang (16:9) và Dọc (9:16) cho TikTok.
          */
 
         // ==========================================
-        // A. HỆ THỐNG ÂM THANH SYNTHESIZER (WEB AUDIO API)
+        // A. HỆ THỐNG ÂM THANH SYNTHESIZER
         // ==========================================
         class SoundEngine {
             constructor() {
@@ -294,21 +308,16 @@
                 if (!this.enabled) return;
                 this.init();
                 if (!this.ctx) return;
-
                 const osc = this.ctx.createOscillator();
                 const gain = this.ctx.createGain();
                 const now = this.ctx.currentTime;
-
                 osc.type = 'sine';
                 osc.frequency.setValueAtTime(220, now);
-                osc.frequency.exponentialRampToValueAtTime(580, now + 0.18);
-
+                osc.frequency.exponentialRampToValueAtTime(620, now + 0.18);
                 gain.gain.setValueAtTime(0.15, now);
                 gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
-
                 osc.connect(gain);
                 gain.connect(this.ctx.destination);
-
                 osc.start(now);
                 osc.stop(now + 0.18);
             }
@@ -317,21 +326,16 @@
                 if (!this.enabled) return;
                 this.init();
                 if (!this.ctx) return;
-
                 const osc = this.ctx.createOscillator();
                 const gain = this.ctx.createGain();
                 const now = this.ctx.currentTime;
-
                 osc.type = 'sawtooth';
-                osc.frequency.setValueAtTime(150, now);
-                osc.frequency.linearRampToValueAtTime(450, now + 0.35);
-
+                osc.frequency.setValueAtTime(140, now);
+                osc.frequency.linearRampToValueAtTime(500, now + 0.35);
                 gain.gain.setValueAtTime(0.12, now);
                 gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
-
                 osc.connect(gain);
                 gain.connect(this.ctx.destination);
-
                 osc.start(now);
                 osc.stop(now + 0.4);
             }
@@ -340,24 +344,19 @@
                 if (!this.enabled) return;
                 this.init();
                 if (!this.ctx) return;
-
                 const now = this.ctx.currentTime;
                 [523.25, 659.25, 783.99].forEach((freq, idx) => {
                     const osc = this.ctx.createOscillator();
                     const gain = this.ctx.createGain();
-                    const startTime = now + idx * 0.06;
-
+                    const startTime = now + idx * 0.05;
                     osc.type = 'triangle';
                     osc.frequency.setValueAtTime(freq, startTime);
-
-                    gain.gain.setValueAtTime(0.1, startTime);
-                    gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.15);
-
+                    gain.gain.setValueAtTime(0.09, startTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.14);
                     osc.connect(gain);
                     gain.connect(this.ctx.destination);
-
                     osc.start(startTime);
-                    osc.stop(startTime + 0.15);
+                    osc.stop(startTime + 0.14);
                 });
             }
 
@@ -365,23 +364,17 @@
                 if (!this.enabled) return;
                 this.init();
                 if (!this.ctx) return;
-
                 const now = this.ctx.currentTime;
-                const notes = [440, 554, 659, 880];
-                notes.forEach((freq, i) => {
+                [440, 554, 659, 880].forEach((freq, i) => {
                     const osc = this.ctx.createOscillator();
                     const gain = this.ctx.createGain();
                     const t = now + i * 0.08;
-
                     osc.type = 'square';
                     osc.frequency.setValueAtTime(freq, t);
-
                     gain.gain.setValueAtTime(0.08, t);
                     gain.gain.exponentialRampToValueAtTime(0.001, t + 0.25);
-
                     osc.connect(gain);
                     gain.connect(this.ctx.destination);
-
                     osc.start(t);
                     osc.stop(t + 0.25);
                 });
@@ -391,19 +384,22 @@
         const sound = new SoundEngine();
 
         // ==========================================
-        // B. CẤU HÌNH & KHỞI TẠO CANVAS
+        // B. CẤU HÌNH CANVAS & HỆ THỐNG MÀN HÌNH (DỌC/NGANG)
         // ==========================================
+        const gameWrapper = document.getElementById('gameWrapper');
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
 
         let width = 0;
         let height = 0;
         let groundY = 0;
+        let isVerticalMode = false;
 
         function resizeCanvas() {
             const dpr = window.devicePixelRatio || 1;
-            width = window.innerWidth;
-            height = window.innerHeight;
+            const rect = gameWrapper.getBoundingClientRect();
+            width = rect.width;
+            height = rect.height;
 
             canvas.width = width * dpr;
             canvas.height = height * dpr;
@@ -411,25 +407,102 @@
             ctx.resetTransform();
             ctx.scale(dpr, dpr);
 
-            // Vị trí mặt đường chạy cách đáy màn hình 140px
-            groundY = height - 130;
+            // Vị trí mặt đường chạy cách đáy màn hình
+            groundY = height - (isVerticalMode ? 180 : 130);
         }
 
         window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
 
         // ==========================================
-        // C. HỆ THỐNG MÔ HÌNH NHÂN VẬT CHIBI & VẬT LÝ
+        // C. HỆ THỐNG KỸ XẢO VFX NÂNG CẤP (SCREEN SHAKE, MANGA TEXT, SHOCKWAVE)
         // ==========================================
-        const CHIBI_PALETTES = [
-            { body: '#f43f5e', hair: '#fda4af', hat: '#be123c', face: '#ffe4e6' }, // Pink / Rose
-            { body: '#3b82f6', hair: '#93c5fd', hat: '#1d4ed8', face: '#eff6ff' }, // Blue
-            { body: '#10b981', hair: '#6ee7b7', hat: '#047857', face: '#ecfdf5' }, // Green
-            { body: '#f59e0b', hair: '#fcd34d', hat: '#b45309', face: '#fffbeb' }, // Amber / Yellow
-            { body: '#8b5cf6', hair: '#c4b5fd', hat: '#6d28d9', face: '#f5f3ff' }, // Purple
-            { body: '#06b6d4', hair: '#67e8f9', hat: '#0e7490', face: '#ecfeff' }, // Cyan
-            { body: '#ec4899', hair: '#fbcfe8', hat: '#9d174d', face: '#fdf2f8' }, // Magenta
-        ];
+        let screenShakeTimer = 0;
+        let screenShakeMagnitude = 0;
+
+        function triggerScreenShake(magnitude = 12, duration = 20) {
+            screenShakeMagnitude = magnitude;
+            screenShakeTimer = duration;
+        }
+
+        class FloatingText {
+            constructor(x, y, text, color = '#facc15', style = 'manga') {
+                this.x = x;
+                this.y = y;
+                this.text = text;
+                this.color = color;
+                this.style = style;
+                this.life = 65;
+                this.maxLife = 65;
+                this.vy = -2.4;
+                this.scale = 1.7;
+                this.rotation = (Math.random() - 0.5) * 0.35;
+            }
+
+            update() {
+                this.y += this.vy;
+                this.vy *= 0.94;
+                this.life--;
+                this.scale = Math.max(1.0, this.scale * 0.97);
+            }
+
+            draw(ctx) {
+                const alpha = Math.min(1, this.life / 20);
+                ctx.save();
+                ctx.globalAlpha = alpha;
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+                ctx.scale(this.scale, this.scale);
+
+                ctx.font = '900 17px "Fredoka", "Nunito", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+
+                // Viền hoạt hình đậm phong cách Manga
+                ctx.strokeStyle = '#000000';
+                ctx.lineWidth = 4.5;
+                ctx.lineJoin = 'miter';
+                ctx.strokeText(this.text, 0, 0);
+
+                // Màu chữ Neon phát sáng
+                ctx.fillStyle = this.color;
+                ctx.shadowColor = this.color;
+                ctx.shadowBlur = 12;
+                ctx.fillText(this.text, 0, 0);
+
+                ctx.restore();
+            }
+        }
+
+        class Shockwave {
+            constructor(x, y, color = '#f43f5e', maxRadius = 65) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.radius = 6;
+                this.maxRadius = maxRadius;
+                this.life = 25;
+                this.maxLife = 25;
+            }
+
+            update() {
+                this.radius += (this.maxRadius - this.radius) * 0.16;
+                this.life--;
+            }
+
+            draw(ctx) {
+                const alpha = this.life / this.maxLife;
+                ctx.save();
+                ctx.globalAlpha = alpha;
+                ctx.strokeStyle = this.color;
+                ctx.shadowColor = this.color;
+                ctx.shadowBlur = 10;
+                ctx.lineWidth = 3.5;
+                ctx.beginPath();
+                ctx.ellipse(this.x, this.y, this.radius, this.radius * 0.35, 0, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.restore();
+            }
+        }
 
         class Particle {
             constructor(x, y, vx, vy, color, size, life) {
@@ -447,7 +520,7 @@
                 this.x += this.vx;
                 this.y += this.vy;
                 this.life--;
-                this.size = Math.max(0, this.size * 0.96);
+                this.size = Math.max(0, this.size * 0.95);
             }
 
             draw(ctx) {
@@ -465,9 +538,9 @@
         class Obstacle {
             constructor(x, type = 'hurdle') {
                 this.x = x;
-                this.type = type; // 'hurdle' hoặc 'speedpad'
-                this.width = type === 'hurdle' ? 24 : 40;
-                this.height = type === 'hurdle' ? 36 : 12;
+                this.type = type;
+                this.width = type === 'hurdle' ? 24 : 44;
+                this.height = type === 'hurdle' ? 36 : 14;
                 this.passedBy = new Set();
             }
 
@@ -478,21 +551,19 @@
             draw(ctx, groundY) {
                 ctx.save();
                 if (this.type === 'hurdle') {
-                    // Rào chắn sọc đỏ trắng dễ thương
                     const y = groundY - this.height;
                     ctx.fillStyle = '#cbd5e1';
                     ctx.fillRect(this.x + 2, y, 4, this.height);
                     ctx.fillRect(this.x + this.width - 6, y, 4, this.height);
-
-                    // Thanh ngang
                     ctx.fillStyle = '#ef4444';
                     ctx.fillRect(this.x, y + 6, this.width, 10);
                     ctx.fillStyle = '#ffffff';
                     ctx.fillRect(this.x + 6, y + 6, 6, 10);
                     ctx.fillRect(this.x + 16, y + 6, 6, 10);
                 } else {
-                    // Mũi tên tăng tốc trên đường
                     ctx.fillStyle = '#facc15';
+                    ctx.shadowColor = '#f59e0b';
+                    ctx.shadowBlur = 10;
                     ctx.beginPath();
                     ctx.moveTo(this.x, groundY - 6);
                     ctx.lineTo(this.x + this.width * 0.6, groundY - 6);
@@ -506,8 +577,20 @@
             }
         }
 
+        // ==========================================
+        // D. MÔ HÌNH NHÂN VẬT CHIBI 2.0 (AVATAR 3D, CÁNH THIÊN THẦN, TEAM BATTLE)
+        // ==========================================
+        const CHIBI_PALETTES = [
+            { body: '#f43f5e', hair: '#fda4af', hat: '#be123c', face: '#ffe4e6' },
+            { body: '#3b82f6', hair: '#93c5fd', hat: '#1d4ed8', face: '#eff6ff' },
+            { body: '#10b981', hair: '#6ee7b7', hat: '#047857', face: '#ecfdf5' },
+            { body: '#f59e0b', hair: '#fcd34d', hat: '#b45309', face: '#fffbeb' },
+            { body: '#8b5cf6', hair: '#c4b5fd', hat: '#6d28d9', face: '#f5f3ff' },
+            { body: '#06b6d4', hair: '#67e8f9', hat: '#0e7490', face: '#ecfeff' }
+        ];
+
         class ChibiPlayer {
-            constructor(uniqueId, nickname, avatarUrl = '') {
+            constructor(uniqueId, nickname, avatarUrl = '', team = null) {
                 this.uniqueId = uniqueId;
                 this.nickname = nickname || uniqueId;
                 this.avatarUrl = avatarUrl;
@@ -519,36 +602,42 @@
                     this.avatarImg.src = avatarUrl;
                 }
 
-                // Tọa độ & Vật lý
-                this.x = 80 + Math.random() * 140; // Vị trí trên màn hình
+                // Phân chia phe: 'red' hoặc 'blue'
+                if (team) {
+                    this.team = team;
+                } else {
+                    const hash = this.getHash(uniqueId);
+                    this.team = (hash % 2 === 0) ? 'red' : 'blue';
+                }
+
+                this.x = 80 + Math.random() * 120;
                 this.y = groundY;
                 this.vy = 0;
                 this.gravity = 0.55;
                 this.jumpPower = -12.5;
                 this.isGrounded = true;
 
-                // Thuộc tính tốc độ và khoảng cách
-                this.baseSpeed = 2.4 + Math.random() * 0.6; // Tốc độ cơ bản
+                this.baseSpeed = 2.4 + Math.random() * 0.6;
                 this.currentSpeed = this.baseSpeed;
-                this.distance = 0; // Quãng đường đã chạy (mét)
-                this.score = 0; // Điểm tương tác (tim + chat + quà)
+                this.distance = 0;
+                this.score = 0;
 
-                // Hiệu ứng Buff
                 this.boostTimer = 0;
                 this.boostMultiplier = 1;
-                this.stumbleTimer = 0; // Thời gian vấp rào
+                this.stumbleTimer = 0;
                 this.scale = 1.0;
                 this.targetScale = 1.0;
 
-                // Màu sắc Chibi
                 const hash = this.getHash(uniqueId);
                 this.palette = CHIBI_PALETTES[hash % CHIBI_PALETTES.length];
 
-                // Animation timing
                 this.animTick = Math.random() * 100;
                 this.rank = 0;
                 this.lastActionText = '';
                 this.lastActionTimer = 0;
+
+                // Lịch sử vị trí để tạo hiệu ứng bóng mờ (After-image)
+                this.ghostTrail = [];
             }
 
             getHash(str) {
@@ -562,21 +651,35 @@
 
             boost(multiplier = 2.5, durationMs = 3500) {
                 this.boostMultiplier = multiplier;
-                this.boostTimer = durationMs / 16.6; // Đổi sang frames (~60fps)
+                this.boostTimer = durationMs / 16.6;
                 this.stumbleTimer = 0;
                 this.score += 50;
-                this.lastActionText = '⚡ TĂNG TỐC!';
-                this.lastActionTimer = 90;
                 sound.playBoost();
 
-                // Tạo hiệu ứng nổ hạt phóng
-                for (let i = 0; i < 15; i++) {
+                // Chữ Manga nổ bung
+                floatingTexts.push(new FloatingText(
+                    this.x,
+                    this.y - 70,
+                    multiplier >= 3.0 ? '🔥 MEGA BOOST! 🔥' : '⚡ SPEED UP! ⚡',
+                    this.team === 'red' ? '#f43f5e' : '#38bdf8'
+                ));
+
+                // Sóng xung kích bùng nổ dưới chân
+                shockwaves.push(new Shockwave(
+                    this.x,
+                    groundY + 2,
+                    this.team === 'red' ? '#f43f5e' : '#06b6d4',
+                    80
+                ));
+
+                // Tia lửa phản lực Nitro 3 tầng
+                for (let i = 0; i < 20; i++) {
                     particles.push(new Particle(
-                        this.x - 10,
-                        this.y - 20,
-                        -3 - Math.random() * 4,
+                        this.x - 12,
+                        this.y - 18,
+                        -4 - Math.random() * 6,
                         (Math.random() - 0.5) * 4,
-                        '#f59e0b',
+                        Math.random() < 0.4 ? '#38bdf8' : (Math.random() < 0.7 ? '#f97316' : '#facc15'),
                         4 + Math.random() * 4,
                         30
                     ));
@@ -585,21 +688,32 @@
 
             jump(superJump = false) {
                 if (this.isGrounded) {
-                    this.vy = superJump ? this.jumpPower * 1.3 : this.jumpPower;
+                    this.vy = superJump ? this.jumpPower * 1.35 : this.jumpPower;
                     this.isGrounded = false;
                     this.score += 15;
-                    this.lastActionText = superJump ? '🦘 SIÊU NHẢY!' : '⬆️ NHẢY!';
-                    this.lastActionTimer = 60;
                     sound.playJump();
 
-                    // Bụi đất khi nhảy
-                    for (let i = 0; i < 8; i++) {
+                    floatingTexts.push(new FloatingText(
+                        this.x,
+                        this.y - 65,
+                        superJump ? '🦘 SIÊU NHẢY! 🦘' : '✨ PERFECT JUMP! ✨',
+                        '#fde047'
+                    ));
+
+                    shockwaves.push(new Shockwave(
+                        this.x,
+                        groundY,
+                        '#e2e8f0',
+                        45
+                    ));
+
+                    for (let i = 0; i < 10; i++) {
                         particles.push(new Particle(
                             this.x,
                             groundY,
-                            (Math.random() - 0.5) * 3,
+                            (Math.random() - 0.5) * 4,
                             -1 - Math.random() * 2,
-                            '#94a3b8',
+                            '#cbd5e1',
                             3 + Math.random() * 3,
                             25
                         ));
@@ -608,19 +722,24 @@
             }
 
             stumble() {
-                if (this.boostTimer > 0) return; // Nếu đang boost thì phá rào, không bị ngã
-                this.stumbleTimer = 45; // Khựng lại ~0.7s
+                if (this.boostTimer > 0) return;
+                this.stumbleTimer = 45;
                 this.vy = -3;
                 this.isGrounded = false;
-                this.lastActionText = '💫 VẤP RÀO!';
-                this.lastActionTimer = 60;
+                triggerScreenShake(6, 12);
 
-                // Hạt sao choáng
-                for (let i = 0; i < 6; i++) {
+                floatingTexts.push(new FloatingText(
+                    this.x,
+                    this.y - 60,
+                    '💫 OUCH! 💫',
+                    '#ef4444'
+                ));
+
+                for (let i = 0; i < 8; i++) {
                     particles.push(new Particle(
                         this.x,
-                        this.y - 45,
-                        (Math.random() - 0.5) * 4,
+                        this.y - 40,
+                        (Math.random() - 0.5) * 5,
                         -2 - Math.random() * 2,
                         '#facc15',
                         4,
@@ -630,156 +749,191 @@
             }
 
             update(worldSpeed) {
-                this.animTick += 0.2;
+                this.animTick += 0.22;
 
-                // Xử lý Buff Tăng Tốc
+                // Lưu lại vị trí để tạo bóng ma After-image khi đang boost
+                if (this.boostTimer > 0 && Math.floor(this.animTick) % 2 === 0) {
+                    this.ghostTrail.unshift({ x: this.x, y: this.y, scale: this.scale, alpha: 0.6 });
+                    if (this.ghostTrail.length > 4) this.ghostTrail.pop();
+                } else if (this.ghostTrail.length > 0) {
+                    this.ghostTrail.pop();
+                }
+
+                // Cập nhật tốc độ
                 if (this.boostTimer > 0) {
                     this.boostTimer--;
                     this.currentSpeed = this.baseSpeed * this.boostMultiplier;
 
-                    // Phun lửa phản lực phía sau
-                    if (Math.random() < 0.6) {
+                    // Ngọn lửa Nitro 3 tầng phụt liên tục
+                    if (Math.random() < 0.8) {
                         particles.push(new Particle(
-                            this.x - 14 * this.scale,
+                            this.x - 16 * this.scale,
                             this.y - (18 + Math.random() * 10) * this.scale,
-                            -4 - Math.random() * 3,
-                            (Math.random() - 0.5) * 2,
-                            Math.random() < 0.5 ? '#f43f5e' : '#fbbf24',
+                            -5 - Math.random() * 4,
+                            (Math.random() - 0.5) * 3,
+                            this.team === 'red' ? (Math.random() < 0.5 ? '#f43f5e' : '#f97316') : (Math.random() < 0.5 ? '#06b6d4' : '#3b82f6'),
                             3 + Math.random() * 4,
-                            20
+                            22
                         ));
                     }
                 } else if (this.stumbleTimer > 0) {
                     this.stumbleTimer--;
-                    this.currentSpeed = this.baseSpeed * 0.3; // Chạy chậm lại
+                    this.currentSpeed = this.baseSpeed * 0.3;
                 } else {
                     this.currentSpeed = this.baseSpeed;
                     this.boostMultiplier = 1;
                 }
 
-                // Cập nhật vị trí X so với tốc độ chung của thế giới
-                // Các nhân vật chạy nhanh hơn camera sẽ tiến dần sang phải
                 const relativeSpeed = this.currentSpeed - worldSpeed;
-                this.x += relativeSpeed * 0.8;
-
-                // Giới hạn không cho chạy lệch ra khỏi màn hình
-                this.x = Math.max(60, Math.min(width - 120, this.x));
-
-                // Quãng đường tích lũy
+                this.x += relativeSpeed * 0.85;
+                this.x = Math.max(50, Math.min(width - 100, this.x));
                 this.distance += this.currentSpeed * 0.08;
 
-                // Vật lý trọng lực trục Y
                 if (!this.isGrounded) {
                     this.vy += this.gravity;
                     this.y += this.vy;
-
                     if (this.y >= groundY) {
                         this.y = groundY;
                         this.vy = 0;
                         this.isGrounded = true;
-
-                        // Bụi tiếp đất
-                        particles.push(new Particle(this.x, groundY, -2, -1, '#94a3b8', 3, 15));
-                        particles.push(new Particle(this.x, groundY, 2, -1, '#94a3b8', 3, 15));
+                        shockwaves.push(new Shockwave(this.x, groundY, '#94a3b8', 35));
                     }
                 }
 
-                if (this.lastActionTimer > 0) {
-                    this.lastActionTimer--;
-                }
-
-                // Hiệu ứng scale mượt mà
                 this.scale += (this.targetScale - this.scale) * 0.1;
             }
 
             draw(ctx) {
-                ctx.save();
-
                 const isBoosting = this.boostTimer > 0;
                 const isStumbling = this.stumbleTimer > 0;
                 const bobbing = this.isGrounded ? Math.sin(this.animTick * 1.8) * 3 : 0;
-                const tilt = isBoosting ? 0.2 : (this.isGrounded ? Math.sin(this.animTick) * 0.08 : (this.vy * 0.03));
-
+                const tilt = isBoosting ? 0.22 : (this.isGrounded ? Math.sin(this.animTick) * 0.08 : (this.vy * 0.03));
                 const drawX = this.x;
                 const drawY = this.y + bobbing;
 
-                // 1. Bóng dưới đất (Shadow)
-                const shadowWidth = (28 - (groundY - this.y) * 0.18) * this.scale;
-                ctx.fillStyle = 'rgba(0, 0, 0, 0.25)';
-                ctx.beginPath();
-                ctx.ellipse(drawX, groundY + 2, Math.max(8, shadowWidth), 5 * this.scale, 0, 0, Math.PI * 2);
-                ctx.fill();
-
-                // 2. Aura phát sáng khi Tăng tốc (Boost Glow)
-                if (isBoosting) {
-                    ctx.save();
-                    ctx.shadowColor = '#fbbf24';
-                    ctx.shadowBlur = 20;
-                    ctx.strokeStyle = '#f59e0b';
-                    ctx.lineWidth = 3;
-                    ctx.beginPath();
-                    ctx.arc(drawX, drawY - 26 * this.scale, 28 * this.scale, 0, Math.PI * 2);
-                    ctx.stroke();
-                    ctx.restore();
+                // 1. VẼ BÓNG MA AFTER-IMAGE KHI ĐANG BOOST
+                if (isBoosting && this.ghostTrail.length > 0) {
+                    this.ghostTrail.forEach((g, idx) => {
+                        ctx.save();
+                        ctx.globalAlpha = g.alpha * (1 - idx * 0.25);
+                        ctx.fillStyle = this.team === 'red' ? 'rgba(244, 63, 94, 0.4)' : 'rgba(56, 189, 248, 0.4)';
+                        ctx.beginPath();
+                        ctx.arc(g.x, g.y - 28 * g.scale, 20 * g.scale, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.restore();
+                    });
                 }
 
-                // Gốc tọa độ di chuyển đến chân nhân vật
-                ctx.translate(drawX, drawY);
-                ctx.scale(this.scale, this.scale);
-                ctx.rotate(tilt);
-
-                // 3. Chân chạy (Feet)
-                const legSwing = Math.sin(this.animTick * 2.2) * 8;
-                ctx.fillStyle = this.palette.hat;
-                // Chân trái
-                ctx.beginPath();
-                ctx.ellipse(-6 + legSwing, -4, 5, 4, 0, 0, Math.PI * 2);
-                ctx.fill();
-                // Chân phải
-                ctx.beginPath();
-                ctx.ellipse(6 - legSwing, -4, 5, 4, 0, 0, Math.PI * 2);
-                ctx.fill();
-
-                // 4. Thân chibi (Body)
+                // 2. PHẢN CHIẾU MẶT ĐƯỜNG ƯỚT (WET ASPHALT REFLECTION)
+                ctx.save();
+                ctx.translate(drawX, groundY + 4);
+                ctx.scale(this.scale, -this.scale * 0.35); // Lật ngược xuống dưới
+                ctx.globalAlpha = 0.18;
                 ctx.fillStyle = this.palette.body;
                 ctx.beginPath();
                 ctx.roundRect(-12, -26, 24, 22, 10);
                 ctx.fill();
+                ctx.restore();
 
-                // Chi tiết áo
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
-                ctx.fillRect(-4, -24, 8, 16);
+                // 3. BÓNG DƯỚI ĐẤT
+                const shadowWidth = (28 - (groundY - this.y) * 0.18) * this.scale;
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.35)';
+                ctx.beginPath();
+                ctx.ellipse(drawX, groundY + 2, Math.max(8, shadowWidth), 5 * this.scale, 0, 0, Math.PI * 2);
+                ctx.fill();
 
-                // 5. Đầu chibi to tròn (Head)
+                // 4. AURA ĐỘI PHÁT SÁNG (RED HOẶC BLUE)
+                ctx.save();
+                ctx.shadowColor = this.team === 'red' ? '#f43f5e' : '#06b6d4';
+                ctx.shadowBlur = isBoosting ? 26 : 14;
+                ctx.strokeStyle = this.team === 'red' ? 'rgba(244, 63, 94, 0.7)' : 'rgba(6, 182, 212, 0.7)';
+                ctx.lineWidth = isBoosting ? 3.5 : 2;
+                ctx.beginPath();
+                ctx.arc(drawX, drawY - 26 * this.scale, 28 * this.scale, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.restore();
+
+                // CHUYỂN MATRIX VÀ VẼ CHI TIẾT CHIBI
+                ctx.save();
+                ctx.translate(drawX, drawY);
+                ctx.scale(this.scale, this.scale);
+                ctx.rotate(tilt);
+
+                // 5. CÁNH THIÊN THẦN VỖ CÁNH (CHO TOP HOẶC ĐIỂM CAO)
+                if (this.score >= 35 || this.rank <= 3) {
+                    const wingFlap = Math.sin(this.animTick * 3.5) * 0.35;
+                    ctx.save();
+                    ctx.fillStyle = this.team === 'red' ? '#f43f5e' : '#38bdf8';
+                    ctx.shadowColor = ctx.fillStyle;
+                    ctx.shadowBlur = 12;
+
+                    // Cánh trái
+                    ctx.save();
+                    ctx.translate(-14, -28);
+                    ctx.rotate(-0.3 + wingFlap);
+                    ctx.beginPath();
+                    ctx.ellipse(-10, -5, 14, 6, -0.4, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+
+                    // Cánh phải
+                    ctx.save();
+                    ctx.translate(14, -28);
+                    ctx.rotate(0.3 - wingFlap);
+                    ctx.beginPath();
+                    ctx.ellipse(10, -5, 14, 6, 0.4, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                    ctx.restore();
+                }
+
+                // 6. CHÂN CHẠY (FEET)
+                const legSwing = Math.sin(this.animTick * 2.2) * 8;
+                ctx.fillStyle = this.team === 'red' ? '#991b1b' : '#1e40af';
+                ctx.beginPath();
+                ctx.ellipse(-6 + legSwing, -4, 5, 4, 0, 0, Math.PI * 2);
+                ctx.ellipse(6 - legSwing, -4, 5, 4, 0, 0, Math.PI * 2);
+                ctx.fill();
+
+                // 7. THÂN CHIBI (BODY)
+                ctx.fillStyle = this.team === 'red' ? '#e11d48' : '#0284c7';
+                ctx.beginPath();
+                ctx.roundRect(-12, -26, 24, 22, 10);
+                ctx.fill();
+
+                // Huy hiệu đội trên áo
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 8px Fredoka, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(this.team === 'red' ? '🔴' : '🔵', 0, -14);
+
+                // 8. ĐẦU CHIBI / MŨ CẦU KÍNH 3D (HEAD)
                 ctx.fillStyle = this.palette.face;
                 ctx.beginPath();
                 ctx.arc(0, -32, 18, 0, Math.PI * 2);
                 ctx.fill();
 
-                // Má hồng (Blush)
+                // Má hồng
                 ctx.fillStyle = 'rgba(244, 63, 94, 0.5)';
                 ctx.beginPath();
                 ctx.arc(-9, -28, 3.5, 0, Math.PI * 2);
                 ctx.arc(9, -28, 3.5, 0, Math.PI * 2);
                 ctx.fill();
 
-                // Mắt chibi
-                ctx.fillStyle = '#1e293b';
+                // Mắt
+                ctx.fillStyle = '#0f172a';
                 if (isStumbling) {
-                    // Mắt nhắm tịt > < khi ngã
                     ctx.lineWidth = 2;
-                    ctx.strokeStyle = '#1e293b';
+                    ctx.strokeStyle = '#0f172a';
                     ctx.beginPath();
                     ctx.moveTo(-9, -34); ctx.lineTo(-4, -31); ctx.lineTo(-9, -28);
                     ctx.moveTo(9, -34); ctx.lineTo(4, -31); ctx.lineTo(9, -28);
                     ctx.stroke();
                 } else {
-                    // Mắt to tròn long lanh
                     ctx.beginPath();
                     ctx.ellipse(-6, -33, 3, 4.5, 0, 0, Math.PI * 2);
                     ctx.ellipse(6, -33, 3, 4.5, 0, 0, Math.PI * 2);
                     ctx.fill();
-                    // Đốm sáng trong mắt
                     ctx.fillStyle = '#ffffff';
                     ctx.beginPath();
                     ctx.arc(-7, -35, 1.2, 0, Math.PI * 2);
@@ -787,15 +941,13 @@
                     ctx.fill();
                 }
 
-                // Miệng nhỏ xinh
-                ctx.strokeStyle = '#1e293b';
+                // Miệng
+                ctx.strokeStyle = '#0f172a';
                 ctx.lineWidth = 1.5;
                 ctx.beginPath();
                 if (isBoosting) {
-                    // Miệng cười to :D
                     ctx.arc(0, -26, 4, 0, Math.PI);
                 } else {
-                    // Miệng chúm chím :3
                     ctx.arc(-2, -26, 2.5, 0, Math.PI * 0.9);
                     ctx.stroke();
                     ctx.beginPath();
@@ -803,7 +955,7 @@
                 }
                 ctx.stroke();
 
-                // 6. Mũ hoặc tóc Chibi
+                // 9. MŨ HOẶC TÓC
                 ctx.fillStyle = this.palette.hair;
                 ctx.beginPath();
                 ctx.arc(0, -42, 14, Math.PI, 0, false);
@@ -812,6 +964,8 @@
                 // Vương miện cho Top 1
                 if (this.rank === 1) {
                     ctx.fillStyle = '#eab308';
+                    ctx.shadowColor = '#facc15';
+                    ctx.shadowBlur = 10;
                     ctx.beginPath();
                     ctx.moveTo(-10, -50);
                     ctx.lineTo(-6, -44);
@@ -822,97 +976,93 @@
                     ctx.lineTo(-8, -42);
                     ctx.closePath();
                     ctx.fill();
-                    ctx.strokeStyle = '#ca8a04';
-                    ctx.lineWidth = 1;
-                    ctx.stroke();
                 }
 
-                // Khôi phục matrix để vẽ bảng tên không bị xoay nghiêng
                 ctx.restore();
 
-                // 7. BẢNG TÊN & THỨ HẠNG TRÊN ĐẦU
+                // 10. BẢNG TÊN & TEAM TAG
                 ctx.save();
                 const tagY = drawY - (56 * this.scale);
-
-                // Nền bảng tên
                 ctx.font = 'bold 11px Nunito, sans-serif';
-                const nameWidth = ctx.measureText(this.nickname).width;
-                const badgeW = Math.max(50, nameWidth + 16);
+                const nameText = `${this.team === 'red' ? '🔴' : '🔵'} ${this.nickname}`;
+                const nameWidth = ctx.measureText(nameText).width;
+                const badgeW = Math.max(54, nameWidth + 14);
 
-                ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+                ctx.fillStyle = 'rgba(15, 23, 42, 0.88)';
                 ctx.beginPath();
                 ctx.roundRect(drawX - badgeW / 2, tagY - 14, badgeW, 18, 9);
                 ctx.fill();
-                ctx.strokeStyle = this.rank === 1 ? '#f59e0b' : 'rgba(255, 255, 255, 0.2)';
+                ctx.strokeStyle = this.team === 'red' ? '#f43f5e' : '#06b6d4';
                 ctx.lineWidth = 1.5;
                 ctx.stroke();
 
-                // Chữ tên người dùng
-                ctx.fillStyle = this.rank === 1 ? '#fde047' : '#ffffff';
+                ctx.fillStyle = '#ffffff';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
-                ctx.fillText(this.nickname, drawX, tagY - 5);
-
-                // Text hành động đang kích hoạt (Tăng tốc, Nhảy...)
-                if (this.lastActionTimer > 0) {
-                    const alpha = Math.min(1, this.lastActionTimer / 20);
-                    ctx.globalAlpha = alpha;
-                    ctx.font = '900 12px Fredoka, cursive';
-                    ctx.fillStyle = isBoosting ? '#fbbf24' : '#38bdf8';
-                    ctx.shadowColor = 'black';
-                    ctx.shadowBlur = 6;
-                    ctx.fillText(this.lastActionText, drawX, tagY - 24);
-                }
+                ctx.fillText(nameText, drawX, tagY - 5);
 
                 ctx.restore();
             }
         }
 
         // ==========================================
-        // D. QUẢN LÝ DỮ LIỆU GAME (STATE)
+        // E. STATE QUẢN LÝ DỮ LIỆU GAME & TEAM
         // ==========================================
-        const players = new Map(); // Key: uniqueId -> ChibiPlayer
+        const players = new Map();
         const obstacles = [];
         const particles = [];
+        const floatingTexts = [];
+        const shockwaves = [];
         let worldDistance = 0;
-        let cameraSpeed = 2.8; // Tốc độ di chuyển nền
+        let cameraSpeed = 2.8;
         let nextObstacleDistance = 120;
 
-        /**
-         * Hàm tự động sinh (spawn) hoặc lấy người chơi
-         */
-        function spawnPlayer(uniqueId, nickname, avatarUrl = '') {
+        function spawnPlayer(uniqueId, nickname, avatarUrl = '', team = null) {
             if (!uniqueId) return null;
 
             if (players.has(uniqueId)) {
                 const existing = players.get(uniqueId);
-                if (nickname && nickname !== existing.nickname) {
-                    existing.nickname = nickname;
-                }
-                if (avatarUrl && !existing.avatarUrl) {
-                    existing.avatarUrl = avatarUrl;
-                }
+                if (nickname && nickname !== existing.nickname) existing.nickname = nickname;
+                if (team && team !== existing.team) existing.team = team;
                 return existing;
             }
 
-            const newPlayer = new ChibiPlayer(uniqueId, nickname, avatarUrl);
+            const newPlayer = new ChibiPlayer(uniqueId, nickname, avatarUrl, team);
             players.set(uniqueId, newPlayer);
             updateUIPlayerCount();
-            showToast(`🎉 <b>${nickname || uniqueId}</b> vừa tham gia đường đua!`, 'member');
+            updateTeamScores();
+            showToast(`🎉 <b>${nickname || uniqueId}</b> gia nhập <b>${newPlayer.team === 'red' ? 'Đội Đỏ 🔴' : 'Đội Xanh 🔵'}</b>!`, 'member');
             return newPlayer;
         }
 
-        function removePlayer(uniqueId) {
-            players.delete(uniqueId);
-            updateUIPlayerCount();
+        function updateUIPlayerCount() {
+            document.getElementById('playerCountBadge').innerText = `${players.size} Người`;
         }
 
-        function updateUIPlayerCount() {
-            document.getElementById('playerCountBadge').innerText = `${players.size} Người chơi`;
+        function updateTeamScores() {
+            let redScore = 0;
+            let blueScore = 0;
+
+            players.forEach(p => {
+                if (p.team === 'red') redScore += p.score + Math.floor(p.distance);
+                else blueScore += p.score + Math.floor(p.distance);
+            });
+
+            document.getElementById('teamRedScore').innerText = `${redScore}đ`;
+            document.getElementById('teamBlueScore').innerText = `${blueScore}đ`;
+
+            const total = redScore + blueScore;
+            let redPercent = 50;
+            if (total > 0) {
+                redPercent = Math.min(85, Math.max(15, Math.round((redScore / total) * 100)));
+            }
+
+            document.getElementById('teamRedBar').style.width = `${redPercent}%`;
+            document.getElementById('teamBlueBar').style.width = `${100 - redPercent}%`;
         }
 
         // ==========================================
-        // E. PARALLAX BACKGROUND RENDERING
+        // F. PARALLAX NỀN 2.0 (CYBER NEON & BIỂN HIỆU HOLOGRAM)
         // ==========================================
         let bgOffsetSky = 0;
         let bgOffsetCity = 0;
@@ -923,26 +1073,26 @@
             bgOffsetCity = (bgOffsetCity + cameraSpeed * 0.45) % width;
             bgOffsetTrack = (bgOffsetTrack + cameraSpeed * 1.5) % 60;
 
-            // 1. Gradient Bầu Trời Hoàng Hôn / Neon Cyber
+            // 1. Sky Gradient Cyberpunk
             const skyGrad = ctx.createLinearGradient(0, 0, 0, groundY);
-            skyGrad.addColorStop(0, '#0f172a'); // Xanh đen sâu
-            skyGrad.addColorStop(0.5, '#312e81'); // Tím Indigo
-            skyGrad.addColorStop(0.85, '#831843'); // Hồng mộng mơ
-            skyGrad.addColorStop(1, '#be185d');
+            skyGrad.addColorStop(0, '#090d16');
+            skyGrad.addColorStop(0.4, '#1e1b4b');
+            skyGrad.addColorStop(0.85, '#4c0519');
+            skyGrad.addColorStop(1, '#831843');
             ctx.fillStyle = skyGrad;
             ctx.fillRect(0, 0, width, height);
 
-            // Mặt trăng neon tròn lớn
+            // Trăng Neon
             ctx.save();
             ctx.fillStyle = '#fef08a';
             ctx.shadowColor = '#facc15';
-            ctx.shadowBlur = 40;
+            ctx.shadowBlur = 45;
             ctx.beginPath();
-            ctx.arc(width - 150, 110, 48, 0, Math.PI * 2);
+            ctx.arc(width - 130, 95, 45, 0, Math.PI * 2);
             ctx.fill();
             ctx.restore();
 
-            // 2. Lớp núi / thành phố xa (Distant Skyline)
+            // 2. Núi xa
             ctx.fillStyle = 'rgba(15, 23, 42, 0.65)';
             for (let i = -1; i < 3; i++) {
                 const baseX = i * 400 - (bgOffsetSky % 400);
@@ -954,69 +1104,84 @@
                 ctx.fill();
             }
 
-            // 3. Lớp thành phố / cây cối gần hơn (Midground Buildings)
-            ctx.fillStyle = '#1e1b4b';
-            const buildingWidth = 70;
+            // 3. Tòa nhà thành phố Neon
+            ctx.fillStyle = '#0f172a';
+            const buildingWidth = 75;
             for (let i = -2; i < width / buildingWidth + 3; i++) {
                 const bX = i * buildingWidth - (bgOffsetCity % (buildingWidth * 4));
-                const bHeight = 70 + ((i * 37) % 90);
+                const bHeight = 80 + ((i * 41) % 110);
                 ctx.fillRect(bX, groundY - bHeight, buildingWidth - 6, bHeight);
 
-                // Cửa sổ vàng sáng lập lánh
-                ctx.fillStyle = '#fde047';
-                ctx.fillRect(bX + 8, groundY - bHeight + 12, 8, 8);
-                ctx.fillRect(bX + 24, groundY - bHeight + 12, 8, 8);
-                ctx.fillStyle = '#1e1b4b';
+                // Cửa sổ vàng & neon
+                ctx.fillStyle = (i % 2 === 0) ? '#fde047' : '#38bdf8';
+                ctx.fillRect(bX + 8, groundY - bHeight + 14, 8, 8);
+                ctx.fillRect(bX + 26, groundY - bHeight + 14, 8, 8);
+                ctx.fillStyle = '#0f172a';
             }
 
-            // 4. Khán đài và hàng rào đường đua
-            ctx.fillStyle = '#334155';
-            ctx.fillRect(0, groundY - 12, width, 12);
+            // 4. BIỂN HIỆU QUẢNG CÁO HOLOGRAM KHỔNG LỒ TÊN KÊNH
+            ctx.save();
+            const billboardX = width / 2 - 240;
+            const billboardY = 70;
+            ctx.fillStyle = 'rgba(15, 23, 42, 0.75)';
+            ctx.strokeStyle = '#f43f5e';
+            ctx.lineWidth = 2;
+            ctx.shadowColor = '#f43f5e';
+            ctx.shadowBlur = 18;
+            ctx.beginPath();
+            ctx.roundRect(billboardX, billboardY, 480, 42, 16);
+            ctx.fill();
+            ctx.stroke();
 
-            // Cờ đuôi nheo trang trí
+            ctx.font = '800 13px Fredoka, sans-serif';
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'center';
+            ctx.fillText('🔥 LIVE: @dyhfvz06vn73 • CHAT 1 = ĐỘI ĐỎ 🔴 • CHAT 2 = ĐỘI XANH 🔵 • HOA HỒNG = NITRO 🔥', width / 2, billboardY + 26);
+            ctx.restore();
+
+            // 5. Khán đài và cờ
+            ctx.fillStyle = '#1e293b';
+            ctx.fillRect(0, groundY - 14, width, 14);
+
             for (let x = -20; x < width + 40; x += 35) {
                 const flagX = x - (bgOffsetCity % 35);
                 ctx.fillStyle = (Math.floor(x / 35) % 2 === 0) ? '#f43f5e' : '#38bdf8';
                 ctx.beginPath();
-                ctx.moveTo(flagX, groundY - 12);
-                ctx.lineTo(flagX + 16, groundY - 12);
-                ctx.lineTo(flagX + 8, groundY - 2);
+                ctx.moveTo(flagX, groundY - 14);
+                ctx.lineTo(flagX + 16, groundY - 14);
+                ctx.lineTo(flagX + 8, groundY - 4);
                 ctx.fill();
             }
 
-            // 5. Mặt đường chạy (Running Track)
+            // 6. Mặt đường đua ướt bóng lộn (Wet Asphalt)
             const trackGrad = ctx.createLinearGradient(0, groundY, 0, height);
-            trackGrad.addColorStop(0, '#1e293b');
-            trackGrad.addColorStop(0.3, '#0f172a');
-            trackGrad.addColorStop(1, '#020617');
+            trackGrad.addColorStop(0, '#111827');
+            trackGrad.addColorStop(0.35, '#0a0f1d');
+            trackGrad.addColorStop(1, '#030712');
             ctx.fillStyle = trackGrad;
             ctx.fillRect(0, groundY, width, height - groundY);
 
-            // Vạch cỏ hoặc lề đường neon phản quang
+            // Vạch dạ quang neon trên lề đường
             ctx.fillStyle = '#ec4899';
+            ctx.shadowColor = '#ec4899';
+            ctx.shadowBlur = 10;
             ctx.fillRect(0, groundY, width, 4);
+            ctx.shadowBlur = 0;
 
-            // Vạch kẻ đứt sọc trên đường chạy (Moving Road Dash Lines)
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+            // Vạch kẻ đứt sọc phát sáng chuyển động
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.45)';
             for (let x = -60; x < width + 60; x += 60) {
                 ctx.fillRect(x - bgOffsetTrack, groundY + 45, 32, 6);
             }
-
-            // Cột mốc cự ly (Distance markers mỗi 100m)
-            const distKm = Math.floor(worldDistance / 50);
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
-            ctx.font = '800 13px Nunito, sans-serif';
-            ctx.fillText(`📍 MỐC ĐƯỜNG ĐUA: ${(worldDistance * 0.1).toFixed(0)}m`, 24, groundY + 85);
         }
 
         // ==========================================
-        // F. MAIN GAME LOOP
+        // G. MAIN GAME LOOP VỚI SCREEN SHAKE & CHỮ MANGA
         // ==========================================
         function gameLoop() {
-            // Cập nhật khoảng cách đường đua
             worldDistance += cameraSpeed;
 
-            // Sinh vật cản ngẫu nhiên
+            // Sinh vật cản
             nextObstacleDistance -= cameraSpeed;
             if (nextObstacleDistance <= 0) {
                 const type = Math.random() < 0.75 ? 'hurdle' : 'speedpad';
@@ -1024,34 +1189,38 @@
                 nextObstacleDistance = 220 + Math.random() * 260;
             }
 
-            // 1. Vẽ nền Parallax
+            // 1. ÁP DỤNG RUNG MÀN HÌNH (SCREEN SHAKE) NẾU CÓ
+            ctx.save();
+            if (screenShakeTimer > 0) {
+                screenShakeTimer--;
+                const shakeX = (Math.random() - 0.5) * screenShakeMagnitude;
+                const shakeY = (Math.random() - 0.5) * screenShakeMagnitude;
+                ctx.translate(shakeX, shakeY);
+            }
+
+            // 2. Vẽ nền Parallax
             drawParallaxBackground(ctx);
 
-            // 2. Cập nhật & vẽ Chướng ngại vật
+            // 3. Cập nhật & vẽ chướng ngại vật
             for (let i = obstacles.length - 1; i >= 0; i--) {
                 const obs = obstacles[i];
                 obs.update(cameraSpeed);
                 obs.draw(ctx, groundY);
 
-                // Kiểm tra va chạm với từng người chơi
                 players.forEach(p => {
                     if (obs.passedBy.has(p.uniqueId)) return;
-
-                    // Hitbox va chạm đơn giản
                     const isNearX = Math.abs(p.x - obs.x) < 22;
                     if (isNearX) {
                         if (obs.type === 'hurdle') {
-                            // Nếu nhân vật không nhảy đủ cao
                             if (p.y > groundY - obs.height + 6) {
                                 p.stumble();
                                 obs.passedBy.add(p.uniqueId);
                             } else {
-                                // Nhảy qua thành công
                                 p.score += 25;
                                 obs.passedBy.add(p.uniqueId);
+                                floatingTexts.push(new FloatingText(p.x, p.y - 60, '+25đ!', '#a7f3d0'));
                             }
                         } else if (obs.type === 'speedpad') {
-                            // Giẫm trúng bệ tốc độ
                             if (p.isGrounded) {
                                 p.boost(1.8, 2000);
                                 obs.passedBy.add(p.uniqueId);
@@ -1060,100 +1229,107 @@
                     }
                 });
 
-                // Xóa vật cản đã trôi khỏi màn hình
-                if (obs.x < -100) {
-                    obstacles.splice(i, 1);
-                }
+                if (obs.x < -100) obstacles.splice(i, 1);
             }
 
-            // 3. Cập nhật thứ hạng (Ranking)
+            // 4. Sắp xếp thứ hạng
             const sortedPlayers = Array.from(players.values()).sort((a, b) => {
-                // Sắp xếp ưu tiên theo Điểm tương tác, sau đó tới Quãng đường
                 return (b.score * 10 + b.distance) - (a.score * 10 + a.distance);
             });
+            sortedPlayers.forEach((p, idx) => { p.rank = idx + 1; });
 
-            sortedPlayers.forEach((p, idx) => {
-                p.rank = idx + 1;
-            });
-
-            // 4. Cập nhật & vẽ các nhân vật Chibi
-            // Vẽ nhân vật xếp hạng thấp trước, Top 1 vẽ sau cùng để nằm đè lên trên
+            // 5. Cập nhật & vẽ các nhân vật Chibi
             for (let i = sortedPlayers.length - 1; i >= 0; i--) {
                 const player = sortedPlayers[i];
                 player.update(cameraSpeed);
                 player.draw(ctx);
             }
 
-            // 5. Cập nhật & vẽ hiệu ứng Hạt (Particles)
+            // 6. Vẽ hiệu ứng Sóng Xung Kích (Shockwaves)
+            for (let i = shockwaves.length - 1; i >= 0; i--) {
+                const sw = shockwaves[i];
+                sw.update();
+                sw.draw(ctx);
+                if (sw.life <= 0) shockwaves.splice(i, 1);
+            }
+
+            // 7. Vẽ hiệu ứng Hạt (Particles)
             for (let i = particles.length - 1; i >= 0; i--) {
                 const pt = particles[i];
                 pt.update();
                 pt.draw(ctx);
-                if (pt.life <= 0) {
-                    particles.splice(i, 1);
-                }
+                if (pt.life <= 0) particles.splice(i, 1);
             }
 
-            // 6. Cập nhật Bảng Xếp Hạng HTML (Leaderboard UI) mỗi 15 frame
+            // 8. Vẽ Chữ Manga bay (Floating Manga Texts)
+            for (let i = floatingTexts.length - 1; i >= 0; i--) {
+                const ft = floatingTexts[i];
+                ft.update();
+                ft.draw(ctx);
+                if (ft.life <= 0) floatingTexts.splice(i, 1);
+            }
+
+            // Khôi phục matrix sau khi vẽ xong Screen Shake
+            ctx.restore();
+
+            // 9. Cập nhật UI Leaderboard & Điểm đội
             if (Math.floor(worldDistance) % 15 === 0) {
                 renderLeaderboardUI(sortedPlayers);
+                updateTeamScores();
             }
 
             requestAnimationFrame(gameLoop);
         }
 
         // ==========================================
-        // G. GIAO DIỆN BẢNG XẾP HẠNG & TOAST ALERT
+        // H. GIAO DIỆN BẢNG XẾP HẠNG & TOAST ALERT
         // ==========================================
         function renderLeaderboardUI(sortedPlayers) {
             const container = document.getElementById('leaderboardList');
             if (sortedPlayers.length === 0) {
                 container.innerHTML = `
-                <div class="text-center py-6 text-xs text-slate-400 italic">
-                    Chưa có người chơi nào vào đường đua...<br>
-                    Hãy chat hoặc tặng hoa hồng để xuất hiện!
-                </div>
-            `;
+                    <div class="text-center py-4 text-xs text-slate-400 italic">
+                        Chưa có người chơi nào vào đường đua...<br>
+                        Hãy chat <b>1</b> hoặc <b>2</b> để tham gia!
+                    </div>
+                `;
                 return;
             }
 
             let html = '';
-            const topPlayers = sortedPlayers.slice(0, 8); // Top 8
+            const topPlayers = sortedPlayers.slice(0, 8);
 
             topPlayers.forEach((p, idx) => {
                 let rankBadge = '';
-                let borderClass = 'border-white/5';
-                let bgClass = 'bg-slate-900/40';
+                let borderClass = p.team === 'red' ? 'border-rose-500/30' : 'border-cyan-500/30';
+                let bgClass = p.team === 'red' ? 'bg-rose-950/20' : 'bg-cyan-950/20';
 
                 if (idx === 0) {
                     rankBadge = '<span class="text-amber-400 font-black text-sm">🥇 #1</span>';
                     borderClass = 'border-amber-500/40 shadow-sm shadow-amber-500/20';
-                    bgClass = 'bg-amber-950/20';
                 } else if (idx === 1) {
                     rankBadge = '<span class="text-slate-300 font-bold text-xs">🥈 #2</span>';
-                    borderClass = 'border-slate-400/30';
                 } else if (idx === 2) {
                     rankBadge = '<span class="text-amber-600 font-bold text-xs">🥉 #3</span>';
-                    borderClass = 'border-amber-700/30';
                 } else {
                     rankBadge = `<span class="text-slate-400 text-xs font-semibold">#${idx + 1}</span>`;
                 }
 
                 html += `
-                <div class="flex items-center justify-between p-2 rounded-2xl ${bgClass} border ${borderClass} transition hover:bg-slate-800/50">
-                    <div class="flex items-center gap-2 overflow-hidden">
-                        <div class="w-7 text-center">${rankBadge}</div>
-                        <div class="w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs shadow-inner" style="background-color: ${p.palette.body}">
-                            ${p.nickname.charAt(0).toUpperCase()}
+                <div class="flex items-center justify-between p-1.5 sm:p-2 rounded-2xl ${bgClass} border ${borderClass} transition hover:bg-slate-800/50">
+                    <div class="flex items-center gap-1.5 overflow-hidden">
+                        <div class="w-6 text-center">${rankBadge}</div>
+                        <div class="w-6 h-6 rounded-full flex items-center justify-center font-bold text-[10px] shadow-inner text-white" style="background-color: ${p.team === 'red' ? '#e11d48' : '#0284c7'}">
+                            ${p.team === 'red' ? '🔴' : '🔵'}
                         </div>
                         <div class="flex flex-col truncate">
-                            <span class="text-xs font-bold text-white truncate max-w-[90px]">${p.nickname}</span>
-                            <span class="text-[10px] text-slate-400 font-medium">${(p.distance * 0.1).toFixed(0)}m</span>
+                            <span class="text-xs font-bold text-white truncate max-w-[80px]">${p.nickname}</span>
+                            <span class="text-[9px] text-slate-400">${(p.distance * 0.1).toFixed(0)}m</span>
                         </div>
                     </div>
                     <div class="text-right">
                         <span class="text-xs font-black text-cyan-400">${p.score}</span>
-                        <span class="text-[9px] text-slate-400 block font-bold">điểm</span>
+                        <span class="text-[8px] text-slate-400 block font-bold">điểm</span>
                     </div>
                 </div>
             `;
@@ -1165,7 +1341,6 @@
         function showToast(messageHtml, type = 'gift') {
             const container = document.getElementById('toastContainer');
             const toast = document.createElement('div');
-
             let borderGlow = 'border-pink-500/40 shadow-rose-500/20';
             let bgGrad = 'from-rose-950/80 to-slate-900/90';
 
@@ -1176,19 +1351,15 @@
 
             toast.className = `glass-panel px-4 py-2 rounded-2xl shadow-xl flex items-center gap-2.5 text-xs text-white border ${borderGlow} bg-gradient-to-r ${bgGrad} toast-animate pointer-events-auto`;
             toast.innerHTML = messageHtml;
-
             container.appendChild(toast);
 
-            // Tự động gỡ sau 4 giây
             setTimeout(() => {
-                if (toast.parentNode) {
-                    toast.parentNode.removeChild(toast);
-                }
+                if (toast.parentNode) toast.parentNode.removeChild(toast);
             }, 4000);
         }
 
         // ==========================================
-        // H. KẾT NỐI WEBSOCKET LOCAL / CLOUD BRIDGE
+        // I. KẾT NỐI WEBSOCKET LOCAL / CLOUD BRIDGE
         // ==========================================
         const urlParams = new URLSearchParams(window.location.search);
         let WS_URL = urlParams.get('ws') || localStorage.getItem('tiktok_ws_bridge_url') || 'ws://localhost:8080';
@@ -1202,12 +1373,10 @@
         const wsStatusText = document.getElementById('wsStatusText');
 
         function connectWebSocket() {
-            if (socket && (socket.readyState === WebSocket.CONNECTING || socket.readyState === WebSocket.OPEN)) {
-                return;
-            }
+            if (socket && (socket.readyState === WebSocket.CONNECTING || socket.readyState === WebSocket.OPEN)) return;
 
             wsStatusBadge.className = 'glass-panel px-3 py-1.5 rounded-full flex items-center gap-2 text-xs font-bold text-amber-400 border-amber-500/30';
-            wsStatusText.innerText = `Đang kết nối: ${WS_URL.replace('ws://', '').replace('wss://', '')}`;
+            wsStatusText.innerText = `Đang kết nối...`;
 
             try {
                 socket = new WebSocket(WS_URL);
@@ -1219,10 +1388,10 @@
             socket.onopen = () => {
                 connectionFailures = 0;
                 stopAutoDemo();
-                console.log('✅ Đã kết nối thành công tới WebSocket Bridge:', WS_URL);
+                console.log('✅ Đã kết nối WebSocket Bridge:', WS_URL);
                 wsStatusBadge.className = 'glass-panel px-3 py-1.5 rounded-full flex items-center gap-2 text-xs font-bold text-emerald-400 border-emerald-500/40 shadow-emerald-500/20';
-                wsStatusText.innerText = '🟢 Đã kết nối Live Bridge';
-                showToast('🟢 Đã kết nối tới TikTok Live Bridge!', 'boost');
+                wsStatusText.innerText = '🟢 Live Bridge';
+                showToast('🟢 Đã kết nối tới TikTok Live Bridge @dyhfvz06vn73!', 'boost');
             };
 
             socket.onmessage = (event) => {
@@ -1230,25 +1399,19 @@
                     const packet = JSON.parse(event.data);
                     handleIncomingEvent(packet);
                 } catch (err) {
-                    console.error('Lỗi phân tích dữ liệu WebSocket:', err);
+                    console.error('Lỗi phân tích WebSocket:', err);
                 }
             };
 
-            socket.onclose = () => {
-                handleConnectionFailure();
-            };
-
-            socket.onerror = (err) => {
-                console.warn('WebSocket không kết nối được tới:', WS_URL);
-            };
+            socket.onclose = () => { handleConnectionFailure(); };
+            socket.onerror = (err) => { console.warn('WebSocket không kết nối được tới:', WS_URL); };
         }
 
         function handleConnectionFailure() {
             connectionFailures++;
             wsStatusBadge.className = 'glass-panel px-3 py-1.5 rounded-full flex items-center gap-2 text-xs font-bold text-rose-400 border-rose-500/40';
-            wsStatusText.innerText = '🔴 Không có Bridge (Thử lại...)';
+            wsStatusText.innerText = '🔴 Không có Bridge';
 
-            // Nếu chạy trên Vercel hoặc chưa chạy server.js, tự động bật Demo sau 2 lần thử thất bại
             if (connectionFailures >= 2 && !isAutoDemoRunning) {
                 startAutoDemo();
             }
@@ -1257,45 +1420,29 @@
             reconnectTimeout = setTimeout(connectWebSocket, 4000);
         }
 
-        /**
-         * Chế độ Auto-Demo: Chạy ngẫu nhiên tự động khi host trên Vercel mà streamer chưa bật Local Bridge
-         */
         function startAutoDemo() {
             if (isAutoDemoRunning) return;
             isAutoDemoRunning = true;
-            document.getElementById('channelNameBadge').innerText = '@VercelDemoLive';
-            showToast('⚡ Đang chạy <b>Chế độ Mô Phỏng Tự Động</b> trên Vercel!', 'boost');
+            showToast('⚡ Đang chạy <b>Mô Phỏng Đua Team 2.0</b> tự động trên Vercel!', 'boost');
 
             const demoUsers = [
-                { id: 'v_ngan', name: 'Ngân 98 🌸' },
-                { id: 'v_nam', name: 'Nam Vương ⚡' },
-                { id: 'v_tu', name: 'Tú Cute 🐱' },
-                { id: 'v_long', name: 'Long Đẹp Trai 🏎️' }
+                { id: 'v_ngan', name: 'Ngân 98 🌸', team: 'red' },
+                { id: 'v_nam', name: 'Nam Vương ⚡', team: 'blue' },
+                { id: 'v_tu', name: 'Tú Cute 🐱', team: 'red' },
+                { id: 'v_long', name: 'Long Đẹp Trai 🏎️', team: 'blue' }
             ];
 
-            demoUsers.forEach(u => spawnPlayer(u.id, u.name));
+            demoUsers.forEach(u => spawnPlayer(u.id, u.name, '', u.team));
 
             autoDemoInterval = setInterval(() => {
                 const u = demoUsers[Math.floor(Math.random() * demoUsers.length)];
                 const act = Math.random();
                 if (act < 0.4) {
-                    handleIncomingEvent({
-                        type: 'like',
-                        user: { uniqueId: u.id, nickname: u.name },
-                        data: { likeCount: 15 }
-                    });
+                    handleIncomingEvent({ type: 'like', user: { uniqueId: u.id, nickname: u.name }, data: { likeCount: 15 } });
                 } else if (act < 0.75) {
-                    handleIncomingEvent({
-                        type: 'chat',
-                        user: { uniqueId: u.id, nickname: u.name },
-                        data: { comment: 'chay nhanh di!', action: 'boost' }
-                    });
+                    handleIncomingEvent({ type: 'chat', user: { uniqueId: u.id, nickname: u.name }, data: { comment: '1', action: 'boost' } });
                 } else {
-                    handleIncomingEvent({
-                        type: 'gift',
-                        user: { uniqueId: u.id, nickname: u.name },
-                        data: { giftName: 'Hoa Hồng', giftCount: 1, action: 'boost' }
-                    });
+                    handleIncomingEvent({ type: 'gift', user: { uniqueId: u.id, nickname: u.name }, data: { giftName: 'Hoa Hồng', giftCount: 1, action: 'boost' } });
                 }
             }, 3000);
         }
@@ -1306,26 +1453,22 @@
             clearInterval(autoDemoInterval);
         }
 
-        /**
-         * Xử lý gói tin nhận từ Local Bridge
-         */
         function handleIncomingEvent(packet) {
             const { type, user, data } = packet;
-
-            if (type === 'system') {
-                if (data.targetUsername) {
-                    document.getElementById('channelNameBadge').innerText = `@${data.targetUsername}`;
-                }
-                return;
-            }
-
+            if (type === 'system') return;
             if (!user || !user.uniqueId) return;
 
-            // 1. Tự động sinh nhân vật nếu chưa có
-            const player = spawnPlayer(user.uniqueId, user.nickname, user.avatar);
+            // Xác định team theo nội dung chat ("1" = red, "2" = blue)
+            let chosenTeam = null;
+            if (type === 'chat' && data.comment) {
+                const txt = data.comment.trim().toLowerCase();
+                if (txt === '1' || txt.includes('đỏ') || txt.includes('do') || txt.includes('red')) chosenTeam = 'red';
+                else if (txt === '2' || txt.includes('xanh') || txt.includes('blue')) chosenTeam = 'blue';
+            }
+
+            const player = spawnPlayer(user.uniqueId, user.nickname, user.avatar, chosenTeam);
             if (!player) return;
 
-            // 2. Phân loại sự kiện
             if (type === 'gift') {
                 const giftName = data.giftName || 'Món quà';
                 const count = data.giftCount || 1;
@@ -1335,57 +1478,54 @@
                     player.boost(3.5, 6000);
                     player.targetScale = 1.35;
                     setTimeout(() => { player.targetScale = 1.0; }, 6000);
+                    triggerScreenShake(18, 25);
                     sound.playFanfare();
                     showToast(`🏎️ <b>${player.nickname}</b> tặng <b>${giftName}</b> (x${count}) -> <span class="text-amber-300 font-black">SIÊU TỐC ĐỘ x3.5!</span>`, 'boost');
                 } else if (action === 'jump') {
                     player.jump(true);
                     showToast(`💖 <b>${player.nickname}</b> tặng <b>${giftName}</b> -> <span class="text-pink-300 font-bold">SIÊU NHẢY!</span>`, 'gift');
                 } else {
-                    // Mặc định là Hoa hồng / quà thông thường -> Boost
-                    player.boost(data.speedMultiplier || 2.5, data.boostDuration || 4000);
-                    showToast(`🌹 <b>${player.nickname}</b> tặng <b>${giftName}</b> (x${count}) -> <span class="text-pink-300 font-bold">TĂNG TỐC x2.5!</span>`, 'boost');
+                    // Tăng tốc cho cả đội khi có người tặng hoa hồng!
+                    players.forEach(p => {
+                        if (p.team === player.team) p.boost(data.speedMultiplier || 2.5, data.boostDuration || 4000);
+                    });
+                    showToast(`🌹 <b>${player.nickname}</b> tặng <b>${giftName}</b> -> <span class="text-pink-300 font-bold">KÍCH HOẠT NITRO CHO CẢ ĐỘI!</span>`, 'boost');
                 }
-            }
-            else if (type === 'like') {
-                const likeCount = data.likeCount || 1;
-                player.score += Math.min(20, likeCount * 2);
-
-                // Mỗi 15 like kích hoạt 1 cú nhảy vượt rào
-                if (Math.random() < 0.4) {
-                    player.jump(false);
-                }
+            } else if (type === 'like') {
+                player.score += Math.min(20, (data.likeCount || 1) * 2);
+                if (Math.random() < 0.4) player.jump(false);
                 sound.playCoin();
-            }
-            else if (type === 'chat') {
+            } else if (type === 'chat') {
                 player.score += 5;
-
-                if (data.action === 'jump') {
-                    player.jump(false);
-                } else if (data.action === 'boost') {
-                    player.boost(1.8, 2500);
-                }
+                if (data.action === 'jump') player.jump(false);
+                else if (data.action === 'boost') player.boost(1.8, 2500);
             }
         }
 
         // ==========================================
-        // I. BỘ ĐIỀU KHIỂN GIẢ LẬP TEST OFFLINE
+        // J. BỘ ĐIỀU KHIỂN SỰ KIỆN NÚT BẤM (BUTTONS)
         // ==========================================
-        const testNames = ['Gấu Nâu 🐻', 'Chibi Pro ⚡', 'Mèo Ú 🐱', 'Thỏ Trắng 🐰', 'Cá Heo 🐬', 'Rồng Lửa 🐲'];
+        const testNames = ['Gấu Nâu 🐻', 'Chibi Pro ⚡', 'Mèo Ú 🐱', 'Thỏ Trắng 🐰', 'Rồng Lửa 🐲', 'Sói Xám 🐺'];
 
-        document.getElementById('btnMockSpawn').addEventListener('click', () => {
+        document.getElementById('btnMockTeamRed').addEventListener('click', () => {
             sound.init();
-            const randId = 'test_user_' + Math.floor(Math.random() * 900 + 100);
+            const randId = 'user_red_' + Math.floor(Math.random() * 900 + 100);
             const randName = testNames[Math.floor(Math.random() * testNames.length)] + ' ' + randId.slice(-2);
-            spawnPlayer(randId, randName);
+            spawnPlayer(randId, randName, '', 'red');
+        });
+
+        document.getElementById('btnMockTeamBlue').addEventListener('click', () => {
+            sound.init();
+            const randId = 'user_blue_' + Math.floor(Math.random() * 900 + 100);
+            const randName = testNames[Math.floor(Math.random() * testNames.length)] + ' ' + randId.slice(-2);
+            spawnPlayer(randId, randName, '', 'blue');
         });
 
         document.getElementById('btnMockRose').addEventListener('click', () => {
             sound.init();
             const pList = Array.from(players.values());
-            if (pList.length === 0) {
-                spawnPlayer('test_user_1', 'Chibi Test 1');
-            }
-            const target = pList.length > 0 ? pList[Math.floor(Math.random() * pList.length)] : players.get('test_user_1');
+            if (pList.length === 0) spawnPlayer('user_red_1', 'Rồng Lửa Đỏ 🔴', '', 'red');
+            const target = pList.length > 0 ? pList[Math.floor(Math.random() * pList.length)] : players.get('user_red_1');
             handleIncomingEvent({
                 type: 'gift',
                 user: { uniqueId: target.uniqueId, nickname: target.nickname },
@@ -1396,8 +1536,8 @@
         document.getElementById('btnMockHeart').addEventListener('click', () => {
             sound.init();
             const pList = Array.from(players.values());
-            if (pList.length === 0) spawnPlayer('test_user_1', 'Chibi Test 1');
-            const target = pList.length > 0 ? pList[Math.floor(Math.random() * pList.length)] : players.get('test_user_1');
+            if (pList.length === 0) spawnPlayer('user_blue_1', 'Cọp Xanh Biển 🔵', '', 'blue');
+            const target = pList.length > 0 ? pList[Math.floor(Math.random() * pList.length)] : players.get('user_blue_1');
             handleIncomingEvent({
                 type: 'like',
                 user: { uniqueId: target.uniqueId, nickname: target.nickname },
@@ -1406,23 +1546,11 @@
             target.jump(true);
         });
 
-        document.getElementById('btnMockChat').addEventListener('click', () => {
-            sound.init();
-            const pList = Array.from(players.values());
-            if (pList.length === 0) spawnPlayer('test_user_1', 'Chibi Test 1');
-            const target = pList.length > 0 ? pList[Math.floor(Math.random() * pList.length)] : players.get('test_user_1');
-            handleIncomingEvent({
-                type: 'chat',
-                user: { uniqueId: target.uniqueId, nickname: target.nickname },
-                data: { comment: 'chay len!', action: 'boost' }
-            });
-        });
-
         document.getElementById('btnMockSuperCar').addEventListener('click', () => {
             sound.init();
             const pList = Array.from(players.values());
-            if (pList.length === 0) spawnPlayer('test_user_vip', 'Đại Gia Phố Núi 💎');
-            const target = pList.length > 0 ? pList[0] : players.get('test_user_vip');
+            if (pList.length === 0) spawnPlayer('user_vip_1', 'Đại Gia Phố Núi 💎', '', 'red');
+            const target = pList.length > 0 ? pList[0] : players.get('user_vip_1');
             handleIncomingEvent({
                 type: 'gift',
                 user: { uniqueId: target.uniqueId, nickname: target.nickname },
@@ -1430,92 +1558,93 @@
             });
         });
 
+        document.getElementById('btnMockMangaText').addEventListener('click', () => {
+            sound.init();
+            triggerScreenShake(14, 18);
+            floatingTexts.push(new FloatingText(width / 2, groundY - 80, '💥 BOOM! TEAM COMBO! 💥', '#facc15'));
+            shockwaves.push(new Shockwave(width / 2, groundY, '#f43f5e', 110));
+        });
+
         document.getElementById('btnCustomBoost').addEventListener('click', () => {
             sound.init();
             const username = document.getElementById('inputCustomUser').value.trim() || 'my_fan';
             const p = spawnPlayer(username, username);
             p.boost(2.5, 4000);
-            showToast(`⚡ <b>${p.nickname}</b> được kích hoạt tăng tốc thủ công!`, 'boost');
+            showToast(`⚡ <b>${p.nickname}</b> kích hoạt tăng tốc!`, 'boost');
         });
 
         document.getElementById('btnClearPlayers').addEventListener('click', () => {
             players.clear();
             updateUIPlayerCount();
             renderLeaderboardUI([]);
+            updateTeamScores();
         });
 
-        // Toggle âm thanh
+        // Toggle Chế độ Dọc / Ngang (9:16 vs 16:9)
+        const btnToggleLayout = document.getElementById('btnToggleLayout');
+        const layoutIcon = document.getElementById('layoutIcon');
+        const layoutLabel = document.getElementById('layoutLabel');
+
+        btnToggleLayout.addEventListener('click', () => {
+            isVerticalMode = !isVerticalMode;
+            if (isVerticalMode) {
+                gameWrapper.classList.add('mode-vertical');
+                layoutIcon.innerText = '🖥️';
+                layoutLabel.innerText = 'Chế độ: Dọc (9:16)';
+                showToast('📱 Đã bật chế độ Màn Hình Dọc (9:16) chuẩn TikTok!', 'boost');
+            } else {
+                gameWrapper.classList.remove('mode-vertical');
+                layoutIcon.innerText = '📱';
+                layoutLabel.innerText = 'Chế độ: Ngang';
+                showToast('🖥️ Đã trở về chế độ Màn Hình Ngang toàn màn hình!', 'boost');
+            }
+            setTimeout(resizeCanvas, 50);
+        });
+
+        // Toggle Âm thanh
         const btnToggleSound = document.getElementById('btnToggleSound');
         const soundIcon = document.getElementById('soundIcon');
-        const soundLabel = document.getElementById('soundLabel');
-
         btnToggleSound.addEventListener('click', () => {
             sound.init();
             sound.enabled = !sound.enabled;
             soundIcon.innerText = sound.enabled ? '🔊' : '🔇';
-            soundLabel.innerText = sound.enabled ? 'Âm thanh: BẬT' : 'Âm thanh: TẮT';
         });
 
-        // Toggle bảng test panel
+        // Toggle Test Panel
         const testPanel = document.getElementById('testPanel');
-        document.getElementById('btnToggleTest').addEventListener('click', () => {
-            testPanel.classList.toggle('hidden');
-        });
-        document.getElementById('btnCloseTest').addEventListener('click', () => {
-            testPanel.classList.add('hidden');
-        });
+        document.getElementById('btnToggleTest').addEventListener('click', () => { testPanel.classList.toggle('hidden'); });
+        document.getElementById('btnCloseTest').addEventListener('click', () => { testPanel.classList.add('hidden'); });
 
-        // Modal cấu hình WebSocket URL cho Vercel / OBS
+        // Modal Cấu hình WebSocket
         const wsModal = document.getElementById('wsModal');
         const inputWsUrl = document.getElementById('inputWsUrl');
-        const btnWsConfig = document.getElementById('btnWsConfig');
-        const btnCloseWsModal = document.getElementById('btnCloseWsModal');
-        const btnSaveWsUrl = document.getElementById('btnSaveWsUrl');
-        const btnResetWsUrl = document.getElementById('btnResetWsUrl');
-        const btnStartDemoMode = document.getElementById('btnStartDemoMode');
+        document.getElementById('btnWsConfig').addEventListener('click', () => {
+            inputWsUrl.value = WS_URL;
+            wsModal.classList.remove('hidden');
+        });
+        document.getElementById('btnCloseWsModal').addEventListener('click', () => { wsModal.classList.add('hidden'); });
+        document.getElementById('btnSaveWsUrl').addEventListener('click', () => {
+            const newUrl = inputWsUrl.value.trim() || 'ws://localhost:8080';
+            WS_URL = newUrl;
+            localStorage.setItem('tiktok_ws_bridge_url', newUrl);
+            wsModal.classList.add('hidden');
+            if (socket) socket.close();
+            connectWebSocket();
+        });
+        document.getElementById('btnResetWsUrl').addEventListener('click', () => { inputWsUrl.value = 'ws://localhost:8080'; });
+        document.getElementById('btnStartDemoMode').addEventListener('click', () => {
+            wsModal.classList.add('hidden');
+            startAutoDemo();
+        });
 
-        if (btnWsConfig) {
-            btnWsConfig.addEventListener('click', () => {
-                inputWsUrl.value = WS_URL;
-                wsModal.classList.remove('hidden');
-            });
-        }
-        if (btnCloseWsModal) {
-            btnCloseWsModal.addEventListener('click', () => {
-                wsModal.classList.add('hidden');
-            });
-        }
-        if (btnSaveWsUrl) {
-            btnSaveWsUrl.addEventListener('click', () => {
-                const newUrl = inputWsUrl.value.trim() || 'ws://localhost:8080';
-                WS_URL = newUrl;
-                localStorage.setItem('tiktok_ws_bridge_url', newUrl);
-                wsModal.classList.add('hidden');
-                if (socket) socket.close();
-                connectWebSocket();
-            });
-        }
-        if (btnResetWsUrl) {
-            btnResetWsUrl.addEventListener('click', () => {
-                inputWsUrl.value = 'ws://localhost:8080';
-            });
-        }
-        if (btnStartDemoMode) {
-            btnStartDemoMode.addEventListener('click', () => {
-                wsModal.classList.add('hidden');
-                startAutoDemo();
-            });
-        }
+        // Khởi tạo các tuyển thủ ban đầu cho 2 phe
+        spawnPlayer('viewer_red_1', 'Rồng Đỏ VIP 🔴', '', 'red');
+        spawnPlayer('viewer_blue_1', 'Cọp Xanh Thần 🔵', '', 'blue');
 
-        // Khởi tạo 3 nhân vật mẫu ban đầu để màn hình sống động ngay khi mở
-        spawnPlayer('viewer_gau', 'Gấu Bắc Cực 🐻');
-        spawnPlayer('viewer_meo', 'Mèo Đi Hia 🐱');
-        spawnPlayer('viewer_vip', 'Đại Gia VIP 👑');
-
-        // Khởi động kết nối WebSocket và vòng lặp Game
+        // Bắt đầu
+        resizeCanvas();
         connectWebSocket();
         requestAnimationFrame(gameLoop);
     </script>
 </body>
-
 </html>
