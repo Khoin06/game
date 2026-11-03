@@ -29,8 +29,14 @@ if (targetUsername.startsWith('@')) {
 
 // 1. KHỞI TẠO HTTP SERVER (Phục vụ file index.html)
 const server = http.createServer((req, res) => {
-    // Đường dẫn tới index.html
-    let filePath = path.join(__dirname, req.url === '/' ? 'index.html' : req.url);
+    // Chuẩn hóa đường dẫn file tĩnh
+    let target = req.url === '/' ? 'index.html' : req.url.split('?')[0].replace(/^\//, '');
+    let filePath = path.join(__dirname, target);
+
+    // Fallback nếu chạy ở thư mục khác hoặc môi trường đóng gói
+    if (!fs.existsSync(filePath)) {
+        filePath = path.join(process.cwd(), target);
+    }
 
     // Kiểm tra file tồn tại
     fs.readFile(filePath, (err, content) => {

@@ -1,0 +1,2 @@
+# Ignore backend server on Vercel so Vercel deploys purely as static HTML
+server.js
