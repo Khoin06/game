@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Interactive TikTok Live Chibi Obstacle Race Game with Local Node.js WebSocket Bridge",
   "scripts": {
-    "start": "node server.js",
+    "start": "node server.js dyhfvz06vn73",
     "mock": "node server.js --mock"
   },
   "keywords": [

@@ -17,10 +17,10 @@ const WebSocket = require('ws');
 // Cổng chạy server
 const PORT = process.env.PORT || 8080;
 
-// Đọc tham số dòng lệnh
+// Đọc tham số dòng lệnh (mặc định kênh TikTok của bạn: dyhfvz06vn73)
 const args = process.argv.slice(2);
 const isMockMode = args.includes('--mock') || args.includes('-m');
-let targetUsername = args.find(arg => !arg.startsWith('-')) || process.env.TIKTOK_USERNAME || '';
+let targetUsername = args.find(arg => !arg.startsWith('-')) || process.env.TIKTOK_USERNAME || 'dyhfvz06vn73';
 
 // Chuẩn hóa username (bỏ dấu @ nếu có)
 if (targetUsername.startsWith('@')) {
