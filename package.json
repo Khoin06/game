@@ -1,0 +1,25 @@
+{
+  "name": "tiktok-live-chibi-race",
+  "version": "1.0.0",
+  "description": "Interactive TikTok Live Chibi Obstacle Race Game with Local Node.js WebSocket Bridge",
+  "main": "server.js",
+  "scripts": {
+    "build": "echo 'Static build complete'",
+    "start": "node server.js",
+    "mock": "node server.js --mock"
+  },
+  "keywords": [
+    "tiktok-live",
+    "tiktok-live-connector",
+    "game",
+    "html5-canvas",
+    "websocket",
+    "vercel"
+  ],
+  "author": "Senior Full-stack & Game Developer",
+  "license": "MIT",
+  "dependencies": {
+    "tiktok-live-connector": "^1.1.1",
+    "ws": "^8.18.0"
+  }
+}

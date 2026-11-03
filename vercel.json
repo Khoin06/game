@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "name": "tiktok-live-chibi-race",
+  "cleanUrls": true,
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+}
+
